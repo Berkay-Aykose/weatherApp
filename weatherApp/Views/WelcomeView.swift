@@ -6,13 +6,38 @@
 //
 
 import SwiftUI
+import CoreLocationUI
 
 struct WelcomeView: View {
+    
+    @EnvironmentObject var locationManager: LocationManager
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            
+            VStack(spacing: 20){
+                Text("Weather App'e hoş geldiniz.")
+                    .font(.title)
+                    .bold()
+                
+                Text("Lütfen bulunduğunuz bölgenin havadurumunu öğrenmek için konumunuzu paylaşın.")
+                    .padding()
+            }.multilineTextAlignment(.center)
+                .padding()
+            
+            LocationButton(.shareCurrentLocation){
+                locationManager.requestLocation()
+            }
+            .symbolVariant(.fill)
+            .cornerRadius(20)
+            .foregroundStyle(.white)
+            
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 #Preview {
     WelcomeView()
+        .environmentObject(LocationManager()) // Preview için nesneyi ekle
 }
+
